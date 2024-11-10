@@ -1,0 +1,13 @@
+$ export AWS_ACCESS_KEY_ID="anaccesskey"
+$ export AWS_SECRET_ACCESS_KEY="asecretkey"
+
+
+https://050752608385.signin.aws.amazon.com/console
+
+aws_instance.digit-quickstart-vm: Creation complete after 13s [id=i-0f8f221d2639487da]
+
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+public_ip = "3.108.53.106"
