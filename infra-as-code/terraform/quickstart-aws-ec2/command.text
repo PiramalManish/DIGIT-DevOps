@@ -1,6 +1,6 @@
 determination , dedication , drive success
-$ export AWS_ACCESS_KEY_ID="AKIAQXUIXLCAYT76RU7B"
-$ export AWS_SECRET_ACCESS_KEY="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"
+$ export AWS_ACCESS_KEY_ID=""
+$ export AWS_SECRET_ACCESS_KEY=""
 
 git directory : /d/Digit_31072022/DIGIT-DevOps
 https://050752608385.signin.aws.amazon.com/console
