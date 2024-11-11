@@ -61,3 +61,8 @@ install kube cli in local
 choco install kubernetes-cli
 install helm
 D:\Digit_31072022\myk3dconfig
+
+sudo kubectl delete pod zookeeper-0 -n zookeeper-cluster --kubeconfig=/home/ubuntu/kube/myk3dconfig
+
+sudo kubectl delete pod kafka-0 -n kafka-cluster --kubeconfig=/home/ubuntu/kube/myk3dconfig
+kubectl port-forward svc/egov-user 8080:8080 -n egov
