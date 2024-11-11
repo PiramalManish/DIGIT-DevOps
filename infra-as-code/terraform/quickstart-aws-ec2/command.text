@@ -11,12 +11,11 @@ Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
 
 Outputs:
 
-public_ip = "3.108.53.106"
+public_ip = "43.204.216.102"
 
-172.17.0.1
-172.31.6.166
+172.31.11.15
 ==sh login=== if error connection time out , go to aws account add ssh inbound rule
-$ ssh -i /d/DIGIT_31072022/id_rsa ubuntu@3.108.53.106
+$ ssh -i /d/DIGIT_31072022/id_rsa ubuntu@43.204.216.102
 
 creating kubernet lightweight cluster
 --------------------
@@ -30,10 +29,9 @@ ip -4 a | grep "inet" | grep -v "127.0.0.1" | awk '{print $2}' | awk -F "/" '{pr
 
 
 sudo k3d cluster create \
---api-port 172.31.6.166:6550 \
+--api-port 172.31.11.15:6550 \
 --k3s-server-arg "--no-deploy=traefik" \
---k3s-server-arg "--tls-san=3.108.53.106" \
---k3s-server-arg "--node-external-ip=3.108.53.106" \
+--k3s-server-arg "--tls-san=43.204.216.102" \
 --agents 2 \
 -v "/home/ubuntu/kube:/kube@agent[0,1]" \
 -v "/home/ubuntu/kube:/kube@server[0]" \
@@ -43,10 +41,28 @@ sudo k3d kubeconfig get k3s-default > myk3dconfig
 sudo kubectl --kubeconfig=myk3dconfig config use-context k3d-k3s-default
 ========kube cluster info====
 >sudo kubectl cluster-info 
-Kubernetes control plane is running at https://0.0.0.0:46293
-CoreDNS is running at https://0.0.0.0:46293/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
-Metrics-server is running at https://0.0.0.0:46293/api/v1/namespaces/kube-system/services/https:metrics-server:/proxy
-
+Kubernetes control plane is running at https://172.31.11.15:6550
+CoreDNS is running at https://172.31.11.15:6550/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+Metrics-server is running at https://172.31.11.15:6550/api/v1/namespaces/kube-system/services/https:metrics-server:/proxy
 =========================================================================
 step > copy kube config file to local
-scp -i /d/DIGIT_31072022/id_rsa ubuntu@3.108.53.106:/home/ubuntu/kube/myk3dconfig ./myk3dconfig
+scp -i /d/DIGIT_31072022/id_rsa ubuntu@43.204.216.102:/home/ubuntu/kube/myk3dconfig ./myk3dconfig
+sudo k3d cluster list
+sudo kubectl get nodes
+sudo kubectl top nodes
+
+
+=========
+after kubenet setup install digit ===
+cd DIGIT-DevOps\deploy-as-code\egov-deployer
+ping quickstart.local.digit
+go run digit_setup.go
+install kube cli in local 
+choco install kubernetes-cli
+install helm
+D:\Digit_31072022\myk3dconfig
+
+sudo kubectl delete pod zookeeper-0 -n zookeeper-cluster --kubeconfig=/home/ubuntu/kube/myk3dconfig
+
+sudo kubectl delete pod kafka-0 -n kafka-cluster --kubeconfig=/home/ubuntu/kube/myk3dconfig
+kubectl port-forward svc/egov-user 8080:8080 -n egov
