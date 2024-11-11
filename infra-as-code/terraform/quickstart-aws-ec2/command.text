@@ -1,3 +1,4 @@
+determination , dedication , drive success
 $ export AWS_ACCESS_KEY_ID="anaccesskey"
 $ export AWS_SECRET_ACCESS_KEY="asecretkey"
 
@@ -25,26 +26,27 @@ cd ~/kube
 pwd 
 /home/ubuntu/kube
 
-ip a | grep "inet" | grep -v "127.0.0.0"|awk -F "/" '{print $1}'| head -n1
+ip -4 a | grep "inet" | grep -v "127.0.0.1" | awk '{print $2}' | awk -F "/" '{print $1}' | head -n1
 
 
-sudo k3d cluster create
-> --api-port 172.31.6.166:6550\
-> --k3s-server-arg "--no-deploy-traefik" \
-> --k3s-server-arg "--tls-san-3.108.53.106" \
->-agents 2\
-> -v /home/ubuntu/kube:/kube@agent [0,1]" \
-> -v "/home/ubuntu/kube:/kube@server[0]" \ >port "80:80@loadbalance"
+sudo k3d cluster create \
+--api-port 172.31.6.166:6550 \
+--k3s-server-arg "--no-deploy=traefik" \
+--k3s-server-arg "--tls-san=3.108.53.106" \
+--k3s-server-arg "--node-external-ip=3.108.53.106" \
+--agents 2 \
+-v "/home/ubuntu/kube:/kube@agent[0,1]" \
+-v "/home/ubuntu/kube:/kube@server[0]" \
+--port "80:80@loadbalancer"
 
 sudo k3d kubeconfig get k3s-default > myk3dconfig
 sudo kubectl --kubeconfig=myk3dconfig config use-context k3d-k3s-default
 ========kube cluster info====
->sudo kubectl cluster -info 
+>sudo kubectl cluster-info 
 Kubernetes control plane is running at https://0.0.0.0:46293
 CoreDNS is running at https://0.0.0.0:46293/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
 Metrics-server is running at https://0.0.0.0:46293/api/v1/namespaces/kube-system/services/https:metrics-server:/proxy
 
 =========================================================================
 step > copy kube config file to local
-scp-i /d/DIGIT_31072022/id_rsa ubuntu@3.108.53.106
-ubuntu@3.108.53.106: /home/ubuntu/kube/ myk3dconfig /.myk3dconfig
+scp -i /d/DIGIT_31072022/id_rsa ubuntu@3.108.53.106:/home/ubuntu/kube/myk3dconfig ./myk3dconfig
