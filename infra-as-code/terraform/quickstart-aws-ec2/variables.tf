@@ -19,7 +19,7 @@ variable "tag" {
 ## change ssh public_key with your public ssh key
 
 variable "public_key" {
-  default = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPhETHVKGIJFw1YagQqqkRBdAYpmF7g9NuFj3nukpIHM manish_k@Manish" 
+  default = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEkXvDfDreSXpAPTSeXLohT73VOcM9KzCbGjAiTAOsIE manish_k@Manish" 
   description = "ssh key"
 }
 
